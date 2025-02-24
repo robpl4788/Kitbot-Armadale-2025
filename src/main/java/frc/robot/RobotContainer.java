@@ -49,7 +49,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_eEjector.runEjector());
+    m_driverController.rightBumper().whileTrue(m_eEjector.runEjector());
     m_eEjector.setDefaultCommand(m_eEjector.stopEjector());
     m_Drive.setDefaultCommand(m_Drive.tankDrive(m_driverController::getLeftY, m_driverController::getRightY));
   }
@@ -61,10 +61,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return m_Drive.tankDrive(1., 1.)
-                      .withTimeout(1)
-                      .andThen(m_Drive.tankDrive(0., 0.))
-                      .alongWith(m_eEjector.runEjector())
-                      .withTimeout (3);
+    return (m_Drive.tankDrive(-.5, -.5)
+                      .withTimeout(3))
+                      .andThen(m_Drive.tankDrive(0., 0.)
+                        .alongWith(m_eEjector.runEjector())
+                        .withTimeout (1));
   }
 }
